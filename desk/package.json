@@ -4,7 +4,7 @@
   "main": "main.js",
   "dependencies": {
     "bluebird": "^3.5.5",
-    "electron": "6.0.2",
+    "electron": "6.0.4",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.4.2",
