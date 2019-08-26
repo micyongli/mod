@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row } from 'antd';
 
-export default class HistoryChart extends React.Component {
+export default class HistoryChartPage extends React.Component {
     render() {
         return (
             <Row>
