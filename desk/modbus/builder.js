@@ -1,31 +1,18 @@
 const { modbus_crc16 } = require('./crc');
 
 /**
- 01 (0x01)-读线圈- readCoil 
- 格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
- 返回:  addr(1b)+cmd(1b)+count(1b)+status(1b)+crc(2b)
+ * 由低字节到高字节
+ * 
 
- 02 (0x02)-读离散量输入-readInputStatus
- 格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
- 返回:  addr(1b)+cmd(1b)+count(1b)+status(1b)+crc(2b)
-
- 03 (0x03)-读保持寄存器-readHoldRegister
- 格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
- 返回:  addr(1b)+cmd(1b)+count(1b)+value(Nb)+crc(2b)
-
+ 
  04 (0x04)-读输入寄存器-readInputRegister
- 05 (0x05)-写单个线圈-writeSingleCoil
- 06 (0x06)-写单个寄存器-writeSingleRegister
+ 格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
+ 返回:  addr(1b)+cmd(1b)+count(1b)+status(1b)+crc(2b)
 
- 15 (0x0F)-写多个线圈-writeMultipleCoil
- 格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+ctx(1b)+value(Nb)+crc(2b)
- 返回:  addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
- 其它为错误0x82
+ 
 
- 16 (0x10)-写多个寄存器-writeMultipleRegister
- 格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+ctx(1b)+value(Nb)+crc(2b)
- 返回:  addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
- 其它为错误0x82
+ 
+
  */
 
 class builder {
@@ -76,14 +63,102 @@ class builder {
         return buf;
     }
 
-    static readHold(addr, reg, count) {
+ 
+
+    /**
+     *  01 (0x01)-读线圈- readCoil 
+        格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
+        返回:  addr(1b)+cmd(1b)+count(1b)+status(1b)+crc(2b)
+     * @param {*} add 
+     * @param {*} reg 
+     * @param {*} count 
+     */
+    static readCoil(addr, reg, count) {
         const buf = Buffer.alloc(4);
         buf.writeUInt16BE(reg, 0);
         buf.writeUInt16BE(count, 2);
-        return makeCmd(addr, 3, buf);
+        return builder.makeCmd(addr, 1, buf);
     }
 
-    static writeHold(addr, reg, count, data) {
+    /**
+     * 05 (0x05)-写单个线圈-writeSingleCoil
+       格式： addr(1b)+cmd(1b)+value(2b)+crc(2b)
+       返回:  addr(1b)+cmd(1b)+value(2b)+crc(2b)
+     * @param {*} addr 
+     * @param {*} reg 
+     * @param {*} val16 
+     */
+    static writeSingleCoil(addr, reg, val16) {
+        const buf = Buffer.alloc(4);
+        buf.writeUInt16BE(reg, 0);
+        buf.writeUInt16BE(val16, 2);
+        return builder.makeCmd(addr, 5, buf);
+    }
+
+    /**
+     *  15 (0x0F)-写多个线圈-writeMultipleCoil
+        格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+ctx(1b)+value(Nb)+crc(2b)
+        返回:  addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
+        其它为错误0x82
+     * @param {*} addr 
+     * @param {*} reg 
+     * @param {*} byte_array 
+     */
+    static writeMultipleCoil(addr, reg, count, byte_array) {
+        const sz = byte_array.length;
+        const buf = Buffer.alloc(5 + sz);
+        buf.writeUInt16BE(reg, 0);
+        buf.writeUInt16BE(count, 2);
+        builder.bufferCp(byte_array, 0, buf, 4, sz);
+        return builder.makeCmd(addr, 15, buf);
+    }
+
+    /**
+     *  02 (0x02)-读离散量输入-readInputStatus
+        格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
+        返回:  addr(1b)+cmd(1b)+count(1b)+status(1b)+crc(2b)
+     */
+
+    static readInputStatus(addr, reg, count) {
+
+        const buf = Buffer.alloc(4);
+        buf.writeUInt16BE(reg, 0);
+        buf.writeUInt16BE(count, 2);
+        return builder.makeCmd(addr, 2, buf);
+    }
+
+
+    /**
+     * 03 (0x03)-读保持寄存器-readHoldRegister
+       格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
+       返回:  addr(1b)+cmd(1b)+count(1b)+value(Nb)+crc(2b)
+     */
+    static readHoldRegister(addr, reg, count) {
+        const buf = Buffer.alloc(4);
+        buf.writeUInt16BE(reg, 0);
+        buf.writeUInt16BE(count, 2);
+        return builder.makeCmd(addr, 3, buf);
+    }
+
+
+    /**
+     *  06 (0x06)-写单个寄存器-writeSingleRegister
+        格式： addr(1b)+cmd(1b)+value(2b)+crc(2b)
+        返回:  addr(1b)+cmd(1b)+value(2b)+crc(2b)
+     */
+    static writeSingleRegister(addr, val_16) {
+        const buf = Buffer.alloc(2);
+        buf.writeUInt16BE(val_16, 0);
+        return builder.makeCmd(addr, 6, buf);
+    }
+
+    /**
+     *  16 (0x10)-写多个寄存器-writeMultipleRegister
+        格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+ctx(1b)+value(Nb)+crc(2b)
+        返回:  addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
+        其它为错误0x82
+     */
+    static writeMultipleRegister(addr, reg, count, data) {
         const clone = [];
         const len = data.length;
         for (let i = 0; i < len; i++) {
@@ -100,15 +175,10 @@ class builder {
         buf.writeUInt16BE(count, 2);
         buf.writeUInt8(len, 4);
         builder.bufferCp(clone, 0, buf, 5, bytes);
-        return makeCmd(addr, 16, buf);
+        return builder.makeCmd(addr, 16, buf);
     }
 
-    static readInput(addr, reg, count) {
-        const buf = Buffer.alloc(4);
-        buf.writeUInt16BE(reg, 0);
-        buf.writeUInt16BE(count, 2);
-        return makeCmd(addr, 4, buf);
-    }
+
 }
 
 module.exports = builder;
