@@ -12,6 +12,9 @@ const { modbus_crc16 } = require('./crc');
 
  */
 
+ /**
+  * https://wenku.baidu.com/view/29a99694dd88d0d233d46a46.html
+  */
 class builder {
 
     /**
