@@ -4,11 +4,24 @@
   "main": "main.js",
   "dependencies": {
     "bluebird": "^3.5.5",
+    "debug": "^4.1.1",
     "electron": "6.0.4",
-    "express": "^4.17.1",
-    "express-graphql": "^0.9.0",
     "graphql": "^14.4.2",
+    "koa": "^2.8.1",
+    "koa-compress": "^3.0.0",
+    "koa-graphql": "^0.8.0",
+    "koa-mount": "^4.0.0",
+    "koa-static": "^5.0.0",
+    "log4js": "^5.0.0",
     "mysql": "^2.17.1",
     "serialport": "^7.1.5"
+  },
+  "scripts": {
+    "start": "electron .",
+    "startDebug": "set DEBUG=zj:* && yarn start",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
   }
 }

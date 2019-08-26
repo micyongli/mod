@@ -3,12 +3,16 @@ const library = '[name]_lib'
 const path = require('path')
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: {
         react: [
             'react',
             'react-dom',
-            'react-router'
+            'react-router',
+            'react-router-dom'
+        ],
+        echarts: [
+            'echarts'
         ]
     },
 
@@ -22,7 +26,7 @@ module.exports = {
         new webpack.DllPlugin({
             path: path.resolve(__dirname, '../desk/public/js/dist/[name]-manifest.json'),
             name: library
-        }) 
+        })
     ]
 
 }

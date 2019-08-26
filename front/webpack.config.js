@@ -24,6 +24,10 @@ module.exports = {
         new webpack.DllReferencePlugin({
             context: __dirname,
             manifest: require('../desk/public/js/dist/react-manifest.json')
+        }),
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('../desk/public/js/dist/echarts-manifest.json')
         })
     ]
 }
