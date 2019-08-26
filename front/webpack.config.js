@@ -1,10 +1,11 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
     entry: path.resolve(__dirname, './index.js'),
     output: {
-        path: path.resolve(__dirname, '../desk/public/js'),
+        path: path.resolve(__dirname, '../desk/public/js/dist'),
         filename: 'default.js'
     },
     module: {
@@ -18,5 +19,11 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('../desk/public/js/dist/react-manifest.json')
+        })
+    ]
 }
