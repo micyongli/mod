@@ -141,7 +141,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SerialPage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SerialPage */ \"./components/SerialPage.js\");\n/* harmony import */ var _ChartPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ChartPage */ \"./components/ChartPage.js\");\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ([{\n  id: 'serialPage',\n  icon: 'setting',\n  desc: '设置',\n  path: '/',\n  component: _SerialPage__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n}, {\n  id: 'historyChart',\n  icon: 'pie-chart',\n  desc: '曲线',\n  path: '/chart',\n  component: _ChartPage__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n}]);\n\n//# sourceURL=webpack:///./components/config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SerialPage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SerialPage */ \"./components/SerialPage.js\");\n/* harmony import */ var _ChartPage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChartPage */ \"./components/ChartPage.js\");\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ([{\n  id: 'serialPage',\n  icon: 'setting',\n  desc: '设置',\n  path: '/',\n  component: _SerialPage__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n}, {\n  id: 'historyChart',\n  icon: 'pie-chart',\n  desc: '曲线',\n  path: '/chart',\n  component: _ChartPage__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n}]);\n\n//# sourceURL=webpack:///./components/config.js?");
 
 /***/ }),
 
