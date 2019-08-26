@@ -9,9 +9,6 @@ const { modbus_crc16 } = require('./crc');
  格式： addr(1b)+cmd(1b)+reg(2b)+count(2b)+crc(2b)
  返回:  addr(1b)+cmd(1b)+count(1b)+status(1b)+crc(2b)
 
- 
-
- 
 
  */
 
