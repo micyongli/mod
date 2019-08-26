@@ -1,0 +1,8 @@
+.app-menu{
+    font-size: 18px;
+    font-family: '雅黑'
+}
+
+.ant-menu-item> i{
+    font-size: 18px;
+}

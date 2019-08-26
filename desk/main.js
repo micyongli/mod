@@ -1,5 +1,5 @@
 
-const { BrowserWindow, app } = require('electron');
+const { BrowserWindow, app, Menu } = require('electron');
 require('./app');
 const config = require('./config');
 const debug = require('debug')("zj:main.js");
@@ -10,6 +10,7 @@ app.on('ready', () => {
             nodeIntegration: true
         }
     });
+    // Menu.setApplicationMenu(null);
     win.loadURL(config.url.getUrl())
         .then(v => {
             debug(`load completed by url`);

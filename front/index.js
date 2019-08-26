@@ -1,25 +1,52 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import { withRouter } from 'react-router';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { message, Layout } from 'antd'
+import { message, Layout, Row } from 'antd'
+import './index.css';
 
-function Test(props) {
-    console.log(props)
-    return <div>----------ok</div>
-}
+
+import NavMenu from './components/NavMenu';
+
+import RouteArray from './components/config';
 
 class App extends React.Component {
+    state = {
+        show: false
+    }
     componentDidMount() {
         message.success('load completed');
     }
+
+    jump = path => {
+        this.setState({ show: false }, () =>
+            this.props.history.push(path));
+    }
+
     render() {
+      
         return (
-            <Route exact path='/' component={Test} />
+            <Layout>
+                <Row className={'app-header'}>
+                    <h2>Componay Name</h2>
+                </Row>
+                <Row className={'app-menu-border'}>
+                    <NavMenu />
+                </Row>
+
+                {
+                    RouteArray.map((x, inx) => {
+                        const { path, component } = x;
+                        return <Route exact path={path} component={component} key={inx} />
+                    })
+                }
+            
+            </Layout >
         );
     }
 }
 
 const AppWrapper = withRouter(App);
+
 
 ReactDOM.render(<BrowserRouter><AppWrapper /></BrowserRouter>, document.getElementById('app'));
